@@ -44,23 +44,23 @@
 - (BOOL)isKeyCode:(unsigned short)aKeyCode andFlagsTaken:(NSEventModifierFlags)aFlags error:(NSError **)outError;
 {
     if ([self isKeyCode:aKeyCode andFlagTakenInDelegate:aFlags error:outError])
-        return YES;
+        return NO;
 
     if ((![self.delegate respondsToSelector:@selector(shortcutValidatorShouldCheckSystemShortcuts:)] ||
          [self.delegate shortcutValidatorShouldCheckSystemShortcuts:self]) &&
         [self isKeyCode:aKeyCode andFlagsTakenInSystemShortcuts:aFlags error:outError])
     {
-        return YES;
+        return NO;
     }
 
     if ((![self.delegate respondsToSelector:@selector(shortcutValidatorShouldCheckMenu:)] ||
          [self.delegate shortcutValidatorShouldCheckMenu:self]) &&
         [self isKeyCode:aKeyCode andFlags:aFlags takenInMenu:NSApp.mainMenu error:outError])
     {
-        return YES;
+        return NO;
     }
 
-    return NO;
+    return YES;
 }
 
 - (BOOL)isKeyCode:(unsigned short)aKeyCode andFlagTakenInDelegate:(NSEventModifierFlags)aFlags error:(NSError **)outError
